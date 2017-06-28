@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ivan.dubbo.dao.WeixinAuthCodeMapper">
+
+	<resultMap id="weixinauthcode_result_map" type="org.ivan.entity.WeixinAuthCode" >
+		<id column="id" property="id" />
+		<result column="auth_code" property="authCode"/>
+		<result column="app_id" property="appId"/>
+		<result column="time" property="time"/>
+		<result column="component_access_token" property="componentAccessToken"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from weixin_auth_code  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="authCode!=null and authCode!=''">
+				and auth_code like CONCAT('%',#{authCode},'%')
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id like CONCAT('%',#{appId},'%')
+			</if>
+			<if test="timeBegin!=null and timeBegin!=''">
+				and time <![CDATA[ >= ]]> str_to_date(#{timeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="timeEnd!=null and timeEnd!=''">
+				and time <![CDATA[ <= ]]> str_to_date(#{timeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="componentAccessToken!=null and componentAccessToken!=''">
+				and component_access_token like CONCAT('%',#{componentAccessToken},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="org.ivan.entity.WeixinAuthCode" useGeneratedKeys="true" keyProperty="id">
+		insert into weixin_auth_code
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="authCode!=null ">
+				auth_code,
+			</if>
+      		<if test="appId!=null ">
+				app_id,
+			</if>
+      		<if test="time!=null ">
+				time,
+			</if>
+      		<if test="componentAccessToken!=null ">
+				component_access_token,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="authCode!=null ">
+      			#{authCode},
+			</if>
+      		<if test="appId!=null ">
+      			#{appId},
+			</if>
+      		<if test="time!=null ">
+      			#{time},
+			</if>
+      		<if test="componentAccessToken!=null ">
+      			#{componentAccessToken},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.WeixinAuthCode">
+		delete from weixin_auth_code
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="authCode!=null ">
+				and auth_code=#{authCode}
+			</if>
+      		<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+      		<if test="time!=null ">
+				and time=#{time}
+			</if>
+      		<if test="componentAccessToken!=null ">
+				and component_access_token=#{componentAccessToken}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="org.ivan.entity.WeixinAuthCode">
+		update weixin_auth_code
+		<set>
+			<if test="authCode!=null ">
+				auth_code=#{authCode},
+			</if>
+			<if test="appId!=null ">
+				app_id=#{appId},
+			</if>
+			<if test="time!=null ">
+				time=#{time},
+			</if>
+			<if test="componentAccessToken!=null ">
+				component_access_token=#{componentAccessToken},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="org.ivan.entity.WeixinAuthCode" resultMap="weixinauthcode_result_map">
+		select id,auth_code,app_id,time,component_access_token from weixin_auth_code
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="authCode!=null ">
+				and auth_code=#{authCode}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="time!=null ">
+				and time=#{time}
+			</if>
+			<if test="componentAccessToken!=null ">
+				and component_access_token=#{componentAccessToken}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="weixinauthcode_result_map" >
+		select id,auth_code,app_id,time,component_access_token from weixin_auth_code
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="authCode!=null ">
+				and auth_code=#{authCode}
+			</if>
+			<if test="appId!=null ">
+				and app_id=#{appId}
+			</if>
+			<if test="time!=null ">
+				and time=#{time}
+			</if>
+			<if test="componentAccessToken!=null ">
+				and component_access_token=#{componentAccessToken}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="weixinauthcode_result_map" >
+		
+		SELECT id,auth_code,app_id,time,component_access_token FROM weixin_auth_code 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="authCode!=null and authCode!=''">
+				and auth_code like  CONCAT('%',#{authCode},'%')
+			</if>
+			<if test="appId!=null and appId!=''">
+				and app_id like  CONCAT('%',#{appId},'%')
+			</if>
+			<if test="timeBegin!=null and timeBegin!=''">
+				and time <![CDATA[ >= ]]> str_to_date(#{timeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="timeEnd!=null and timeEnd!=''">
+				and time <![CDATA[ <= ]]> str_to_date(#{timeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="componentAccessToken!=null and componentAccessToken!=''">
+				and component_access_token like  CONCAT('%',#{componentAccessToken},'%')
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

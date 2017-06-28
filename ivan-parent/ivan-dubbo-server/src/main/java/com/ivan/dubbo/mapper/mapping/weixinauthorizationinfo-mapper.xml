@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ivan.dubbo.dao.WeixinAuthorizationInfoMapper">
+
+	<resultMap id="weixinauthorizationinfo_result_map" type="org.ivan.entity.WeixinAuthorizationInfo" >
+		<id column="id" property="id" />
+		<result column="nick_name" property="nickName"/>
+		<result column="head_img" property="headImg"/>
+		<result column="service_type_info" property="serviceTypeInfo"/>
+		<result column="verify_type_info" property="verifyTypeInfo"/>
+		<result column="user_name" property="userName"/>
+		<result column="principal_name" property="principalName"/>
+		<result column="alias" property="alias"/>
+		<result column="business_info" property="businessInfo"/>
+		<result column="qrcode_url" property="qrcodeUrl"/>
+		<result column="authorizer_appid" property="authorizerAppid"/>
+		<result column="func_info" property="funcInfo"/>
+		<result column="time" property="time"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from weixin_authorization_info  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="nickName!=null and nickName!=''">
+				and nick_name like CONCAT('%',#{nickName},'%')
+			</if>
+			<if test="headImg!=null and headImg!=''">
+				and head_img like CONCAT('%',#{headImg},'%')
+			</if>
+			<if test="serviceTypeInfo!=null and serviceTypeInfo!=''">
+				and service_type_info = #{serviceTypeInfo}
+			</if>
+			<if test="verifyTypeInfo!=null and verifyTypeInfo!=''">
+				and verify_type_info = #{verifyTypeInfo}
+			</if>
+			<if test="userName!=null and userName!=''">
+				and user_name like CONCAT('%',#{userName},'%')
+			</if>
+			<if test="principalName!=null and principalName!=''">
+				and principal_name like CONCAT('%',#{principalName},'%')
+			</if>
+			<if test="alias!=null and alias!=''">
+				and alias like CONCAT('%',#{alias},'%')
+			</if>
+			<if test="businessInfo!=null and businessInfo!=''">
+				and business_info like CONCAT('%',#{businessInfo},'%')
+			</if>
+			<if test="qrcodeUrl!=null and qrcodeUrl!=''">
+				and qrcode_url like CONCAT('%',#{qrcodeUrl},'%')
+			</if>
+			<if test="authorizerAppid!=null and authorizerAppid!=''">
+				and authorizer_appid like CONCAT('%',#{authorizerAppid},'%')
+			</if>
+			<if test="funcInfo!=null and funcInfo!=''">
+				and func_info like CONCAT('%',#{funcInfo},'%')
+			</if>
+			<if test="timeBegin!=null and timeBegin!=''">
+				and time <![CDATA[ >= ]]> str_to_date(#{timeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="timeEnd!=null and timeEnd!=''">
+				and time <![CDATA[ <= ]]> str_to_date(#{timeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="org.ivan.entity.WeixinAuthorizationInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into weixin_authorization_info
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="nickName!=null ">
+				nick_name,
+			</if>
+      		<if test="headImg!=null ">
+				head_img,
+			</if>
+      		<if test="serviceTypeInfo!=null ">
+				service_type_info,
+			</if>
+      		<if test="verifyTypeInfo!=null ">
+				verify_type_info,
+			</if>
+      		<if test="userName!=null ">
+				user_name,
+			</if>
+      		<if test="principalName!=null ">
+				principal_name,
+			</if>
+      		<if test="alias!=null ">
+				alias,
+			</if>
+      		<if test="businessInfo!=null ">
+				business_info,
+			</if>
+      		<if test="qrcodeUrl!=null ">
+				qrcode_url,
+			</if>
+      		<if test="authorizerAppid!=null ">
+				authorizer_appid,
+			</if>
+      		<if test="funcInfo!=null ">
+				func_info,
+			</if>
+      		<if test="time!=null ">
+				time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="nickName!=null ">
+      			#{nickName},
+			</if>
+      		<if test="headImg!=null ">
+      			#{headImg},
+			</if>
+      		<if test="serviceTypeInfo!=null ">
+      			#{serviceTypeInfo},
+			</if>
+      		<if test="verifyTypeInfo!=null ">
+      			#{verifyTypeInfo},
+			</if>
+      		<if test="userName!=null ">
+      			#{userName},
+			</if>
+      		<if test="principalName!=null ">
+      			#{principalName},
+			</if>
+      		<if test="alias!=null ">
+      			#{alias},
+			</if>
+      		<if test="businessInfo!=null ">
+      			#{businessInfo},
+			</if>
+      		<if test="qrcodeUrl!=null ">
+      			#{qrcodeUrl},
+			</if>
+      		<if test="authorizerAppid!=null ">
+      			#{authorizerAppid},
+			</if>
+      		<if test="funcInfo!=null ">
+      			#{funcInfo},
+			</if>
+      		<if test="time!=null ">
+      			#{time},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.WeixinAuthorizationInfo">
+		delete from weixin_authorization_info
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="nickName!=null ">
+				and nick_name=#{nickName}
+			</if>
+      		<if test="headImg!=null ">
+				and head_img=#{headImg}
+			</if>
+      		<if test="serviceTypeInfo!=null ">
+				and service_type_info=#{serviceTypeInfo}
+			</if>
+      		<if test="verifyTypeInfo!=null ">
+				and verify_type_info=#{verifyTypeInfo}
+			</if>
+      		<if test="userName!=null ">
+				and user_name=#{userName}
+			</if>
+      		<if test="principalName!=null ">
+				and principal_name=#{principalName}
+			</if>
+      		<if test="alias!=null ">
+				and alias=#{alias}
+			</if>
+      		<if test="businessInfo!=null ">
+				and business_info=#{businessInfo}
+			</if>
+      		<if test="qrcodeUrl!=null ">
+				and qrcode_url=#{qrcodeUrl}
+			</if>
+      		<if test="authorizerAppid!=null ">
+				and authorizer_appid=#{authorizerAppid}
+			</if>
+      		<if test="funcInfo!=null ">
+				and func_info=#{funcInfo}
+			</if>
+      		<if test="time!=null ">
+				and time=#{time}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="org.ivan.entity.WeixinAuthorizationInfo">
+		update weixin_authorization_info
+		<set>
+			<if test="nickName!=null ">
+				nick_name=#{nickName},
+			</if>
+			<if test="headImg!=null ">
+				head_img=#{headImg},
+			</if>
+			<if test="serviceTypeInfo!=null ">
+				service_type_info=#{serviceTypeInfo},
+			</if>
+			<if test="verifyTypeInfo!=null ">
+				verify_type_info=#{verifyTypeInfo},
+			</if>
+			<if test="userName!=null ">
+				user_name=#{userName},
+			</if>
+			<if test="principalName!=null ">
+				principal_name=#{principalName},
+			</if>
+			<if test="alias!=null ">
+				alias=#{alias},
+			</if>
+			<if test="businessInfo!=null ">
+				business_info=#{businessInfo},
+			</if>
+			<if test="qrcodeUrl!=null ">
+				qrcode_url=#{qrcodeUrl},
+			</if>
+			<if test="authorizerAppid!=null ">
+				authorizer_appid=#{authorizerAppid},
+			</if>
+			<if test="funcInfo!=null ">
+				func_info=#{funcInfo},
+			</if>
+			<if test="time!=null ">
+				time=#{time},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="org.ivan.entity.WeixinAuthorizationInfo" resultMap="weixinauthorizationinfo_result_map">
+		select id,nick_name,head_img,service_type_info,verify_type_info,user_name,principal_name,alias,business_info,qrcode_url,authorizer_appid,func_info,time from weixin_authorization_info
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="nickName!=null ">
+				and nick_name=#{nickName}
+			</if>
+			<if test="headImg!=null ">
+				and head_img=#{headImg}
+			</if>
+			<if test="serviceTypeInfo!=null ">
+				and service_type_info=#{serviceTypeInfo}
+			</if>
+			<if test="verifyTypeInfo!=null ">
+				and verify_type_info=#{verifyTypeInfo}
+			</if>
+			<if test="userName!=null ">
+				and user_name=#{userName}
+			</if>
+			<if test="principalName!=null ">
+				and principal_name=#{principalName}
+			</if>
+			<if test="alias!=null ">
+				and alias=#{alias}
+			</if>
+			<if test="businessInfo!=null ">
+				and business_info=#{businessInfo}
+			</if>
+			<if test="qrcodeUrl!=null ">
+				and qrcode_url=#{qrcodeUrl}
+			</if>
+			<if test="authorizerAppid!=null ">
+				and authorizer_appid=#{authorizerAppid}
+			</if>
+			<if test="funcInfo!=null ">
+				and func_info=#{funcInfo}
+			</if>
+			<if test="time!=null ">
+				and time=#{time}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="weixinauthorizationinfo_result_map" >
+		select id,nick_name,head_img,service_type_info,verify_type_info,user_name,principal_name,alias,business_info,qrcode_url,authorizer_appid,func_info,time from weixin_authorization_info
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="nickName!=null ">
+				and nick_name=#{nickName}
+			</if>
+			<if test="headImg!=null ">
+				and head_img=#{headImg}
+			</if>
+			<if test="serviceTypeInfo!=null ">
+				and service_type_info=#{serviceTypeInfo}
+			</if>
+			<if test="verifyTypeInfo!=null ">
+				and verify_type_info=#{verifyTypeInfo}
+			</if>
+			<if test="userName!=null ">
+				and user_name=#{userName}
+			</if>
+			<if test="principalName!=null ">
+				and principal_name=#{principalName}
+			</if>
+			<if test="alias!=null ">
+				and alias=#{alias}
+			</if>
+			<if test="businessInfo!=null ">
+				and business_info=#{businessInfo}
+			</if>
+			<if test="qrcodeUrl!=null ">
+				and qrcode_url=#{qrcodeUrl}
+			</if>
+			<if test="authorizerAppid!=null ">
+				and authorizer_appid=#{authorizerAppid}
+			</if>
+			<if test="funcInfo!=null ">
+				and func_info=#{funcInfo}
+			</if>
+			<if test="time!=null ">
+				and time=#{time}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="weixinauthorizationinfo_result_map" >
+		
+		SELECT id,nick_name,head_img,service_type_info,verify_type_info,user_name,principal_name,alias,business_info,qrcode_url,authorizer_appid,func_info,time FROM weixin_authorization_info 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="nickName!=null and nickName!=''">
+				and nick_name like  CONCAT('%',#{nickName},'%')
+			</if>
+			<if test="headImg!=null and headImg!=''">
+				and head_img like  CONCAT('%',#{headImg},'%')
+			</if>
+			<if test="serviceTypeInfo!=null and serviceTypeInfo!=''">
+				and service_type_info = #{serviceTypeInfo}
+			</if>
+			<if test="verifyTypeInfo!=null and verifyTypeInfo!=''">
+				and verify_type_info = #{verifyTypeInfo}
+			</if>
+			<if test="userName!=null and userName!=''">
+				and user_name like  CONCAT('%',#{userName},'%')
+			</if>
+			<if test="principalName!=null and principalName!=''">
+				and principal_name like  CONCAT('%',#{principalName},'%')
+			</if>
+			<if test="alias!=null and alias!=''">
+				and alias like  CONCAT('%',#{alias},'%')
+			</if>
+			<if test="businessInfo!=null and businessInfo!=''">
+				and business_info like  CONCAT('%',#{businessInfo},'%')
+			</if>
+			<if test="qrcodeUrl!=null and qrcodeUrl!=''">
+				and qrcode_url like  CONCAT('%',#{qrcodeUrl},'%')
+			</if>
+			<if test="authorizerAppid!=null and authorizerAppid!=''">
+				and authorizer_appid like  CONCAT('%',#{authorizerAppid},'%')
+			</if>
+			<if test="funcInfo!=null and funcInfo!=''">
+				and func_info like  CONCAT('%',#{funcInfo},'%')
+			</if>
+			<if test="timeBegin!=null and timeBegin!=''">
+				and time <![CDATA[ >= ]]> str_to_date(#{timeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="timeEnd!=null and timeEnd!=''">
+				and time <![CDATA[ <= ]]> str_to_date(#{timeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

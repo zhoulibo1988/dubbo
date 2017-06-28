@@ -1,0 +1,9 @@
+2017-06-27 08:45:30 INFO  WeiXinMessageServiceImpl:24 - ====消息处理核心类被调起=========
+  2017-06-27 08:45:32 INFO  WeiXinMessageServiceImpl:24 - ====消息处理核心类被调起=========
+  2017-06-27 08:45:33 INFO  WeiXinMessageServiceImpl:24 - ====消息处理核心类被调起=========
+  2017-06-27 08:45:33 INFO  WeiXinMessageServiceImpl:24 - ====消息处理核心类被调起=========
+  2017-06-27 08:45:34 INFO  WeiXinMessageServiceImpl:24 - ====消息处理核心类被调起=========
+  2017-06-27 08:45:34 INFO  WeiXinMessageServiceImpl:24 - ====消息处理核心类被调起=========
+  2017-06-27 08:59:43 WARN  AbstractServer:197 -  [DUBBO] All clients has discontected from /169.254.51.129:20880. You can graceful shutdown now., dubbo version: 2.5.3, current host: 127.0.0.1
+  2017-06-27 08:59:43 INFO  DubboProtocol:130 -  [DUBBO] disconected from /169.254.51.129:49384,url:dubbo://169.254.51.129:20880/org.ivan.api.SysUcenterUserMainService?anyhost=true&application=ivan-dubbo-server&channel.readonly.sent=true&codec=dubbo&dubbo=2.5.3&heartbeat=60000&interface=org.ivan.api.SysUcenterUserMainService&methods=insert&pid=12988&side=provider&timestamp=1498461564066, dubbo version: 2.5.3, current host: 127.0.0.1
+  

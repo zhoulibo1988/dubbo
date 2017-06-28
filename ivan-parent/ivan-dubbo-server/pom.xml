@@ -1,0 +1,160 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+	    <groupId>com.ivan.parent</groupId>
+	    <artifactId>ivan-parent</artifactId>
+	    <version>0.0.1-SNAPSHOT</version>
+	  </parent>
+	<groupId>com.ivan.server</groupId>
+	<artifactId>ivan-dubbo-server</artifactId>
+	<packaging>jar</packaging>
+	<name>ivan-dubbo-server</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- 应用ivan-core工程 -->
+		<dependency>
+			<groupId>com.ivan.core</groupId>
+			<artifactId>ivan-core</artifactId>
+			<version>0.0.2</version>
+		</dependency>
+		<!-- 应用ivan-api工程 -->
+		<dependency>
+			<groupId>com.ivan.api</groupId>
+			<artifactId>ivan-api</artifactId>
+			<version>0.0.2</version>
+		</dependency>
+	</dependencies>
+<!-- 
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.ivan.dubbo.main.ServerMain</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>
+							jar-with-dependencies
+						</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build> -->
+	<build>
+		<finalName>ivan-dubbo-server</finalName>
+		<!-- 加载资源 -->
+		<resources>
+			<resource>
+				<targetPath>${project.build.directory}/classes</targetPath> <!-- 设置根路径,classes文件是源文件 -->
+				<directory>src/main/resources</directory>  <!-- 制定文件夹src/main/resources下面的文件移到根路径， src/main/resources 这个路径存放所有配置文件 -->
+				<filtering>true</filtering>
+				<includes>
+					<!-- **/* 代表读取src/main/resources所有，不管啥文件，全部移到根路径 -->
+					<include>**/*.xml</include> <!-- 把src/main/resources下所有文件夹的所有后缀名为.xml的文件 移到根路径 -->
+					<include>**/*.properties</include> <!-- 把src/main/resources下所有文件夹的所有后缀名为.properties的文件 移到根路径 -->
+				</includes>
+			</resource>
+
+			<!-- 结合com.alibaba.dubbo.container.Main -->
+			<resource>
+				<!-- dubbo Main方法 默认读取/classes/META-INF/spring文件下的spring-context.xml文件，所以要将spring-context.xml文件移到该目录 -->
+				<targetPath>${project.build.directory}/classes/META-INF/spring</targetPath>
+				<directory>src/main/resources/WEB-INF/spring</directory> <!-- 这是我存放spring-context.xml的路径 -->
+				<filtering>true</filtering>
+				<includes>
+					<include>spring-registry.xml</include> <!-- 将 spring-context.xml 移到启动文件目录下 -->
+				</includes>
+			</resource>
+		</resources>
+
+		<pluginManagement>
+			<plugins>
+				<!-- 解决Maven插件在Eclipse内执行了一系列的生命周期引起冲突 -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.0,)</versionRange>
+										<goals>
+											<goal>copy-dependencies</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<classesDirectory>target/classes/</classesDirectory>
+					<archive>
+						<manifest>
+							<mainClass>com.ivan.dubbo.main.ServerMain</mainClass> <!-- 主方法，dubbo官方提供的 -->
+							<!-- 打包时 MANIFEST.MF文件不记录的时间戳版本 -->
+							<useUniqueVersions>false</useUniqueVersions>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+						</manifest>
+						<manifestEntries>
+							<Class-Path>.</Class-Path>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<type>jar</type>
+							<includeTypes>jar</includeTypes>
+							<useUniqueVersions>false</useUniqueVersions>
+							<outputDirectory>
+								${project.build.directory}/lib
+							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
