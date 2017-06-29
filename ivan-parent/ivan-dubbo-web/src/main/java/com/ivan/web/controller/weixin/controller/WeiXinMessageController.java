@@ -3,6 +3,7 @@ package com.ivan.web.controller.weixin.controller;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,18 +12,24 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.ivan.api.WeiXinMessageService;
+import org.ivan.api.WeixinAuthorizationTokenService;
+import org.ivan.entity.WeixinAuthorizationToken;
 import org.ivan.entity.weixin.dto.WeChatContants;
-import org.ivan.entity.weixin.message.MessageUtil;
+import org.ivan.entity.weixin.utils.MD5Util;
 import org.ivan.entity.weixin.utils.XMLUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import weixin.popular.api.CustomserviceAPI;
+import weixin.popular.bean.BaseResult;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
@@ -37,6 +44,8 @@ public class WeiXinMessageController {
 	private static final Logger logger = LoggerFactory.getLogger(WeiXinMessageController.class);
 	@Reference
 	private WeiXinMessageService weiXinMessageService;
+	@Reference
+	private WeixinAuthorizationTokenService weixinAuthorizationTokenService;
 	@RequestMapping("/callback")
 	public void weiXinMessage(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
 		logger.info("-----------》微信消息来推送XML了《-----------");

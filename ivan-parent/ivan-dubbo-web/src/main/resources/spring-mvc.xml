@@ -10,7 +10,7 @@
     http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- 自动扫描controller包下的所有类，如果@Controller注入为bean 并将bean依赖注入，即dubbo服务端暴露的Service注入到Controller中 -->
-	<dubbo:annotation package="com" />
+	<dubbo:annotation package="com.ivan.web" />
 
 	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter"

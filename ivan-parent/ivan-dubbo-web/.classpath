@@ -28,6 +28,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ivan-core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ivan-entity"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/weixin-popular-2.8.10.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

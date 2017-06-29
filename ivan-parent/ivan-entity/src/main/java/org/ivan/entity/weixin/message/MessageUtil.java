@@ -89,7 +89,10 @@ public class MessageUtil {
      * 事件类型：CLICK(自定义菜单点击事件) 
      */  
     public static final String EVENT_TYPE_CLICK = "CLICK";  
-  
+    /**
+     * 消息转发给客服
+     */
+    public static final String TRANSFER_CUSTOMER_SERVICE="transfer_customer_service";
     /** 
      * 解析微信发来的请求（XML） 
      *  
